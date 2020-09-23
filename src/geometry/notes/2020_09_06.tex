@@ -1,0 +1,159 @@
+\section*{Wprowadzenie}
+\subsection*{Założenia}
+\begin{itemize}
+    \item tylko liczby całkowite
+        \begin{itemize}[label={\(\implies\)}]
+            \item bez dzielenia
+            \item bez funkcji trygonometrycznych
+            \item bez liczenia odległości (można porównywać ich kwadraty)
+        \end{itemize}
+\end{itemize}
+\subsection*{Obiekty i~oznaczenia}
+\begin{itemize}
+    \item \(P = (x, y)\) punkt
+    \item \(\vec{v} = [x, y]\) wektor (niezaczepiony)
+    \item prosta
+\end{itemize}
+Nie jest złym pomysłem odróżenienie wektorów od punktów na poziomie typów danych.
+\subsubsection*{Jakie działania?}
+\begin{itemize}
+    \item odjąć od siebie dwa punkty, uzyskując wektor z~jednego do drugiego: \(B - A = \vec{AB}\)
+    \item dodać wektor do punktu uzyskując przesunięty punkt: \((x, y) + [a, b] = (x + a, y + b)\)
+\end{itemize}
+\section*{,,Klocki'' algorytmiczne}
+\subsection*{Iloczyn skalarny}
+\begin{mathfig*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (A) at (2.5, 1);
+    \coordinate (B) at (0, 2.5);
+    \drawangle*[thick, ForestGreen, angle radius=0.7cm]{A--origin--B}[\(\alpha\)];
+    \drawvec (origin) -- (A) node[right]{\(v_1 = [x_1, y_1]\)};
+    \drawvec (origin) -- (B) node[above]{\(v_2 = [x_2, y_2]\)};
+    \fillpoint{origin};
+\end{mathfig*}
+\begin{equation*}
+    \begin{split}
+        v_1 \cdot v_2 &\coloneqq x_1 \cdot x_2 + y_1 \cdot y_2\\
+            &= \len{v_1} \cdot \len{v_2} \cdot \cos{\color{ForestGreen} \alpha}
+    \end{split}
+\end{equation*}
+\subsubsection*{Przypadki wartości iloczynu skalarnego w~zależności od wzajemnego położenia wektorów}
+\begin{itemize}
+    \item równoległe: \(\max\) (\(\cos{\color{ForestGreen} \alpha} = +1\))
+    \item kąt ostry: \(> 0\)
+    \item prostopadłe: \(= 0\)
+    \item kąt rozwarty: \(< 0\)
+    \item przeciwrównoległe: \(\min\) (\(\cos{\color{ForestGreen} \alpha} = -1\))
+\end{itemize}
+\subsubsection*{Zastosowania}
+\begin{itemize}
+    \item test prostopadłości
+    \item test zgodności zwrotów
+\end{itemize}
+\subsubsection*{Jak dostać wektor prostopadły do danego?}
+\begin{mathfigure*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (v) at (1.25, 0.5);
+    \coordinate (left) at (-0.5, 1.25);
+    \coordinate (right) at (0.5, -1.25);
+    \drawrightangle[ForestGreen, angle radius=0.3cm]{v--origin--left};
+    \drawvec[Orange] (origin) -- (v) node[right]{\(v = [x, y]\)};
+    \drawvec (origin) -- (left) node[above left]{\([-y, x]\) ,,w lewo''};
+    \drawvec (origin) -- (right) node[below right]{\([y, -x]\) ,,w prawo''};
+    \fillpoint{origin};
+\end{mathfigure*}
+\subsection*{Iloczyn wektorowy}
+\begin{mathfig*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (A) at (2.5, 1);
+    \coordinate (B) at (0, 2.5);
+    \drawangle*[thick, ForestGreen, ->,angle radius=0.7cm]{A--origin--B}[\(\alpha\)];
+    \drawvec (origin) -- (A) node[right]{\(v_1 = [x_1, y_1]\)};
+    \drawvec (origin) -- (B) node[above]{\(v_2 = [x_2, y_2]\)};
+    \fillpoint{origin};
+\end{mathfig*}
+\begin{equation*}
+    \begin{split}
+        v_1 \cross v_2 &\coloneqq x_1 \cdot y_2 - y_1 \cdot x_2\\
+            &= \len{v_1} \cdot \len{v_2} \cdot \sin{\color{ForestGreen} \alpha}
+    \end{split}
+\end{equation*}
+(skierowane pole równoległoboku rozpiętego przez te dwa wektory)
+\subsubsection*{Przypadki}
+\begin{itemize}
+    \item skręt ,,w~lewo'': \(> 0\) (\(\ccw\))
+    \item (przeciw)równoległe: \(= 0\)
+    \item skręt ,,w~prawo'': \(< 0\)
+\end{itemize}
+\subsubsection*{Zastosowania}
+\begin{itemize}
+    \item test równoległości
+    \item sortowanie kątowe
+\end{itemize}
+\subsection*{Sortowanie kątowe}
+\begin{mathfigure*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (a) at (2.5, 0);
+    \coordinate (b) at (-0.5, 1.5);
+    \coordinate (c) at (-1.5, -1.5);
+    \coordinate (d) at (0, -3);
+    \coordinate (e) at (1, -1);
+    \drawvec (origin) -- (a);
+    \drawvec (origin) -- (b);
+    \drawvec (origin) -- (c);
+    \drawvec (origin) -- (d);
+    \drawvec (origin) -- (e);
+    \fillpoint{origin};
+\end{mathfigure*}
+Chcemy uzyskać na tych wektorach porządek cykliczny. Wydaje się, że wystarczyłoby podać \(\ccw\) jako operator porównania do \texttt{std::sort}, ale niestety może to spowodować błędy, gdyż funkcja sortująca oczekuje porządku liniowego. Wybieramy więc wektor \emph{bazowy}, dzielimy wzdłuż niego zbiór wektorów na półpłaszczyzny, a~następnie każdą z~nich sortujemy oddzielnie, jako operatora porównania używając \(\ccw\).
+\begin{mathfigure*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (a) at (2.5, 0);
+    \coordinate (b) at (-0.5, 1.5);
+    \coordinate (c) at (-1.5, -1.5);
+    \coordinate (d) at (0, -3);
+    \coordinate (e) at (1, -1);
+    \draw[Orange, dashed] (-2, 2) -- (origin);
+    \draw[Orange, dashed] (origin) -- node[near end, sloped, above]{baza} (3, -3);
+    \drawvec (origin) -- (a);
+    \drawvec (origin) -- (b);
+    \drawvec (origin) -- (c);
+    \drawvec (origin) -- (d);
+    \drawvec (origin) -- (e);
+    \fillpoint{origin};
+    \draw[Orange] (2, 1) node {poprawny porządek \(\ccw\)};
+    \draw[Orange] (-2.5, -2.25) node {poprawny porządek \(\ccw\)};
+\end{mathfigure*}
+\subsection*{Prosta (skierowana)}
+\begin{mathfigure*}
+    \draw (-4.5, -1.5) -- node[very near end, below right]{\(Ax + By = 0\)} (4.5, 1.5);
+    \draw (-4.5, 0.5) -- node[very near end, below right]{\(Ax + By + C = 0\)} (4.5, 3.5);
+    \draw (6.5, 1.75) node{\(A^2 + B^2 \neq 0\)};
+    \fillpoint*{0, 0}[\((0, 0)\)][below];
+\end{mathfigure*}
+\subsubsection*{Relacja punkt -- prosta}
+\begin{itemize}
+    \item \(Ax + By + C = 0 \implies\) punkt leży na prostej
+    \item \(Ax + By + C > 0 \implies\) punkt leży po ,,dodatniej stronie'' prostej
+    \item \(Ax + By + C < 0 \implies\) punkt leży po ,,ujemnej stronie'' prostej
+\end{itemize}
+Wartość uzyskana po podstawieniu współrzędnych punktu do równania prostej \emph{nie jest faktyczną odległością}, ale jest \emph{liniową funkcją odległości} punktu od prostej, to znaczy jeżeli \(\abs{Ax_1 + By_1 + C} < \abs{Ax_2 + By_2 + C}\), to punkt \((x_1, y_1)\) leży bliżej prostej niż punkt \((x_2, y_2)\).
+\subsubsection*{Wektor normalny prostej}
+Przyjmijmy, że mamy punkt \((x, y)\) należący do prostej, czyli \(Ax + By + C = 0\). Rozważamy jego przesunięcie o~wektor \([B, -A]\). Uzyskujemy punkt o~współrzędnych \((x + B, y - A)\). Po podstawieniu do równania prostej otrzymujemy
+\begin{equation*}
+    A(x + B) + B(y - A) + C = Ax + AB + By - AB + C = Ax + By + C = 0
+\end{equation*}
+Zatem nowy punkt też leży na prostej. Oznacza to, że wektor \([B, -A]\) ma kierunek zgodny z~kierunkiem prostej. Biorąc wektor do niego prostopadły \textcolor{ForestGreen}{w~lewo} uzyskujemy \textcolor{ForestGreen}{wektor normalny} tej prostej, który wyznacza jej dodatnią stronę.
+\begin{mathfigure*}
+    \coordinate (origin) at (0, 0);
+    \coordinate (directional) at (-1.5, -0.5);
+    \coordinate (normal) at (-2, 1);
+    \drawrightangle[ForestGreen]{origin--directional--normal};
+    \draw (-4.5, -1.5) -- node[very near end, below right]{\(Ax + By + C = 0\)} (4.5, 1.5)
+        node[sloped, very near start, below]{\color{Orange} ujemna}
+        node[sloped, very near end, above]{\color{Orange} dodatnia};
+    \drawvec (directional) -- (origin);
+    \drawvec (directional) -- node[left]{\color{ForestGreen} wektor normalny} (normal);
+    \fillpoint*{directional}[\((x, y)\)][below];
+    \fillpoint*{origin}[\([B, -A]\)][below right];
+\end{mathfigure*}

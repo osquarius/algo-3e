@@ -1,0 +1,134 @@
+\section*{Coś na kształt \textit{Principia geometria}}
+\subsection*{Punkt}
+\begin{equation*}
+    P = (x, y) \in \real^2
+\end{equation*}
+\subsection*{Odcinek}
+\subsubsection*{Definicja~1.}
+Odcinek \(PQ\) to zbiór składający się z~punktów \(P\), \(Q\) i~wszystkich puntów \(R\) takich, że punkty \(P\) i~\(Q\) leżą po przeciwnych stronach prostej przechodzącej przez punkt \(R\) i~prostopadłej do prostej \(PQ\).
+\begin{mathfig*}
+    \coordinate (P) at (0, 0);
+    \coordinate (Q) at (1, 2);
+    \coordinate (R) at (0.5, 1);
+    \coordinate (Pprime) at (-0.5, 1.5);
+    \coordinate (Qprime) at (1.5, 0.5);
+    \drawrightangle[ForestGreen, angle radius=0.4cm]{Q--R--Pprime};
+    \draw[shorten <= -0.5cm, shorten >= -0.5cm] (P) -- (Q) node[pos=1.25, right]{\(Ax + By + C_1 = 0\)};
+    \draw[shorten <= -1.5cm, shorten >= -1.5cm] (Pprime) -- (Qprime) node[pos=1.25, above right]{\(Bx - Ay + C_2 = 0\)};
+    \fillpoint*{P}[\(P = (x_1, y_1)\)][above left];
+    \fillpoint*{Q}[\(Q = (x_2, y_2)\)][above left];
+    \fillpoint*{R}[\(R\)][below];
+\end{mathfig*}
+\subsubsection*{Definicja~2.}
+Odcinek \(PQ\) to zbiór punktów \(R\) takich, że
+\begin{gather*}
+    \vec{RP} \cdot \vec{RQ} < 0\\
+    \vec{RP} \cross \vec{RQ} = 0
+\end{gather*}
+\begin{mathfig*}
+    \coordinate (P) at (0, 0);
+    \coordinate (Q) at (2, 1);
+    \coordinate (R) at (1, 0.5);
+    \drawvec (R) -- (P);
+    \drawvec (R) -- (Q);
+    \fillpoint*{P}[\(P\)][above left];
+    \fillpoint*{Q}[\(Q\)][above right];
+    \fillpoint*{R}[\(R\)][below right];
+\end{mathfig*}
+\subsubsection*{Definicja~3.}
+Idziemy prostą skierowaną \(\vec{PQ}\) ruchem jednostajnym od nieskończoności. Wprowadźmy do definicji wymiar czasu \(t \in \real \cup \set{-\infty, +\infty}\) i~ustalmy, że w~punkcie~\(P\) chcemy znaleźć się w~chwili \(t = 0\), a~w~punkcie~\(Q\) w~chwili \(t = 1\). Wtedy naszą pozycję możemy wyrazić jako funkcję:
+\begin{gather*}
+    r\colon \real \mapsto \real^2\\
+    \begin{split}
+        r(t) &= P + \overbrace{(Q - P)}^{\text{wektor kierunkowy naszego ruchu}} \cdot \overbrace{t}^{\text{aktualny czas, skalar}}\\
+            &= P + Q \cdot t - P \cdot t\\
+            &= \underbrace{(1 - t) \cdot P + t \cdot Q}_{\text{punkty traktujemy tu wektorowo}}
+    \end{split}
+\end{gather*}
+Wyrażenie w postaci
+\begin{equation*}
+    \alpha p + \beta q,\qquad \text{gdzie } \alpha + \beta = 1
+\end{equation*}
+nazywamy \highlight{kombinacją liniową} punktów \(p\)~i~\(q\). Gdy dodatkowo zachodzi warunek \(\alpha, \beta \in \closed{0}{1}\), mamy do czynienia z~ich \highlight{kombinacją wypukłą}. Zatem odcinek można zdefiniować jako zbiór wszystkich kombinacji wypukłych jego końców.
+\subsection*{Ogólne definicje kombinacji}
+Kombinacja liniowa zbioru punktów \(\set{p_1, p_2, \ldots, p_n} \subseteq \real^2\) to
+\begin{equation*}
+    \summation[i = 1][n]\alpha_ip_i,\qquad \text{gdzie } \summation[i = 1][n] \alpha_i = 1
+\end{equation*}
+Jeśli dodatkowo zachodzi warunek
+\begin{equation*}
+    \forall i \in \set{1, 2, \ldots, n}\colon \alpha_i \in \closed{0}{1}
+\end{equation*}
+mamy do czynienia z~kombinacją wypukłą.
+\subsection*{Kiedy punkt leży wewnątrz trójkąta (o~niezerowym polu)?}
+Aby to ustalić, uporządkujmy wierzchołki trójkąta \(\triangle ABC\) cyklicznie:
+\begin{mathfigure*}
+    \coordinate (A) at (0, 0);
+    \coordinate (B) at (3, 2);
+    \coordinate (C) at (-1, 2.5);
+    \coordinate (Z) at (1, 1.5);
+    \drawvec (A) -- (B);
+    \drawvec (B) -- (C);
+    \drawvec (C) -- (A);
+    \fillpoint*{A}[\(A\)][below];
+    \fillpoint*{B}[\(B\)];
+    \fillpoint*{C}[\(C\)];
+    \fillpoint*{Z}[\(Z?\)];
+\end{mathfigure*}
+\noindent
+Punkt leży wewnątrz trójkąta wtedy i~tylko wtedy, gdy leży na jednym z odcinków \(AB, BC, CD\) lub leży po ,,takiej samej'' stronie (dla wszystkich po dodatniej albo dla wszystkich po ujemnej) prostych skierowanych \(\vec{AB}, \vec{BC}, \vec{CD}\). Formalnie:
+\begin{equation*}
+    \begin{split}
+        Z \in \triangle ABC\\
+        \verticaliff\\
+        Z \in AB \quad &\lor \quad Z \in BC \quad \lor \quad Z \in CA\\
+            &\lor \quad \sgn{\parens{\vec{AB} \cross \vec{AZ}}} = \sgn{\parens{\vec{BC} \cross \vec{BZ}}} = \sgn{\parens{\vec{CA} \cross \vec{CZ}}}
+    \end{split}
+\end{equation*}
+\subsection*{Trójkąt to zbiór kombinacji wypukłych swoich wierzchołków}
+Na pewno? Dowód:
+\begin{itemize}
+    \item[,,\(\implies\)''] każda kombinacja wypukła wierzchołków należy do trójkąta:
+\end{itemize}
+\subsection*{Wielokąt wypukły}
+Wielokąt wypukły to suma zbiorów kombinacji wypukłych swoich wierzchołków.
+\subsection*{Figura wypukła}
+Dwie definicje tego, że figura \(F \subseteq \real^2\) jest wypukła:
+\begin{enumerate}[label={(\arabic*)}]
+    \item \(\forall P, Q \in F\colon \segment{PQ} \subseteq F\)
+        \begin{mathfigure*}
+            \draw (0, 0) node[below]{wypukła} -- (3, 1) -- (2, 3) -- (-1, 4) -- (-2, 3) -- (-1, 1) -- cycle;
+            \draw[xshift=6cm] (0, 0) node[below]{nie jest wypukła} -- (3, 1) -- (2, 3) -- (-1, 4) -- (-2, 3) -- (-1, 1) -- (1, 2) -- cycle;
+            \draw[ForestGreen] (1, 1) -- (1.5, 2);
+            \draw[ForestGreen] (-1, 3) -- (0, 2.5);
+            \draw[ForestGreen] (0.5, 0.3) -- (-1, 2);
+            \draw[ForestGreen, xshift=6cm] (1, 1) -- (1.5, 2);
+            \draw[ForestGreen, xshift=6cm] (-1, 3) -- (0, 2.5);
+            \draw[Red, xshift=6cm] (0.5, 0.3) -- (-1, 2);
+            \fillpoint[ForestGreen][ForestGreen]{1, 1};
+            \fillpoint[ForestGreen][ForestGreen]{1.5, 2};
+            \fillpoint[ForestGreen][ForestGreen]{-1, 3};
+            \fillpoint[ForestGreen][ForestGreen]{0, 2.5};
+            \fillpoint[ForestGreen][ForestGreen]{0.5, 0.3};
+            \fillpoint[ForestGreen][ForestGreen]{-1, 2};
+            \fillpoint[ForestGreen, xshift=6cm][ForestGreen]{1, 1};
+            \fillpoint[ForestGreen, xshift=6cm][ForestGreen]{1.5, 2};
+            \fillpoint[ForestGreen, xshift=6cm][ForestGreen]{-1, 3};
+            \fillpoint[ForestGreen, xshift=6cm][ForestGreen]{0, 2.5};
+            \fillpoint[Red, xshift=6cm][Red]{0.5, 0.3};
+            \fillpoint[Red, xshift=6cm][Red]{-1, 2};
+        \end{mathfigure*}
+    \item \(F = \conv{F}\), gdzie \(\conv{F} \coloneqq\) zbiór punktów będących kombinacjami wypukłymi dowolnej skończonej liczby punktów z~\(F\)
+\end{enumerate}
+Pokażemy teraz, że te dwie definicje są sobie równoważne:
+\begin{itemize}
+    \item[(1) \(\implies\) (2)] Zauważmy, że tezę \(F = \conv{F}\) możemy rozbić na dwa warunki konieczne:
+        \begin{enumerate}[label={\alph*)}]
+            \item \(F \subseteq \conv{F}\), co jest oczywiste, ponieważ skończona liczba punktów to w~szczególności jeden punkt, a~każdy pojedynczy punkt jest swoją własną kombinacją wypukłą (ze współczynnikiem równym \(1\)). Zatem każdy punkt figury \(F\) należy do \(\conv{F}\).
+            \item \(F \supseteq \conv{F}\), czyli że każdy punkt \(\conv{F}\) należy do figury \(F\). Możemy to pokazać indukcją po liczbie punktów branych do kombinacji wypukłej (niech będzie to liczba \(n\)):
+                \begin{induction}
+                    \item \(n = 1\): kombinacją wypukłą jednego punktu jest zawsze on sam, więc teza zachodzi
+                    \item Załóżmy, że 
+                \end{induction}
+        \end{enumerate}
+\end{itemize}
