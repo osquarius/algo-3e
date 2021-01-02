@@ -1,0 +1,13 @@
+\subsection*{Najbliższa para punktów}
+\subsubsection*{Technika zamiatania}
+Będziemy zamiatać płaszczyznę i~utrzymywać aktualną najbliższą parę punktów o~odległości \(d\). Zastanówmy się dla każdego odwiedzanego punktu przy pozycji miotły \(x\), jakie punkty tworzą z~dotychczas odwiedzonych z~nim najmniejszą odległość. Wyrzucamy z~miotły punkty odległe o~mniej niż \(d\) w~odległości poziomej i~pionowej. Złożoność to \(O\pars{n \log n}\) na sortowanie, \(O\pars{n \log n}\) na wrzucanie do miotły i~\(O\pars{n \log n}\) na wyszukiwanie po miotle dla każdego punktu. W~rozważanym kwadracie nie da się upchnąć więcej niż \(6\) punktów. Zatem końcowa złożoność to \(O\pars{n \log n}\). Nie wiadomo, czy nie można tego zrobić szybciej deterministycznie. Są algorytmy randomizowane, które działają bliżej czasu liniowego.
+\subsection*{Dla każdego koła chcemy wiedzieć, które koło je bezpośrednio zawiera}
+Koła mogą się w~sobie zawierać, ale ich brzegi (okręgi) nie mają punktów wspólnych. Koła tworzą strukturę drzewa (lasu).
+\subsubsection*{Dlaczego zamiatanie ma tu sens?}
+Jeżeli prosta przecina koło, które zawiera się w~jakimś zewnętrznym, to musi przecinać też samo koło zewnętrzne.
+\subsubsection*{Przeczesujemy prostą płaszczyznę}
+Chcemy trzymać na niej zbiór kół, które ona przecina. Jak je uporządkować? Zamiast kół, trzymajmy punkty przecięcia okręgów~z miotłą. Pojawia się jednak problem, ponieważ punkty na miotle mają ciągły charakter. Zauważmy jednak, że konkretne współrzędne nie są nam potrzebne, wystarczy ich porządek pomiędzy zdarzeniami, a~on jest stały. Przy wrzucaniu punktu na miotłę musimy określić, między którymi punktami on leży. Jeśli trafiamy na okrąg styczny, wrzucamy od razu dwa punkty. Rozróżnijmy dwie sytuacje:
+\begin{itemize}
+    \item koła zawierają się w~sobie
+    \item koła są rozłączne
+\end{itemize}

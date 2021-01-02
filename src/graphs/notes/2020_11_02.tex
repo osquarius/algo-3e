@@ -1,0 +1,27 @@
+\subsection*{Pokrycie wierzchołkowe (vertex cover)}
+Przypomnienie: jeśli \(A\) jest zbiorem, to przez
+\begin{equation*}
+    \binom{A}{k}
+\end{equation*}
+rozumiemy zbiór wszystkich dokładnie \(k\)-elementowych podzbiorów \(A\).
+\begin{description}
+    \item[in:] \(G = \pars{V, E} \qquad E \subseteq \binom{V}{2}\)
+    \item[out:] \(C \subseteq V\)
+        \begin{equation*}
+            \forall e \in E\colon e \cap C \neq \emptyset
+        \end{equation*}
+        Jest to ciekawy problem, gdy chcemy \(\min\card{C}\)
+\end{description}
+\subsubsection*{Twierdzenie Königa}
+W~grafie dwudzielnym najmniej liczne pokrycie wierzchołkowe ma liczność równą liczności skojarzenia najliczniejszego. Zauważmy, że jeśli mamy dowolne pokrycie \(C\) i~skojarzenie \(M\), to
+\begin{equation*}
+    \card{C} \geq \card{M}
+\end{equation*}
+Ponieważ jeśli zdefiniujemy funkcję
+\begin{equation*}
+    f\colon M \mapsto C
+\end{equation*}
+to jest ona injekcją. Zatem moc dziedziny jest nie większa od mocy przeciwdziedziny. Czyli
+\begin{equation*}
+    C^*, M^*, \card{C^*} = \card{M^*} \implies C^* \text{ najmniej liczne i~} M^* \text{ najliczniejsze}
+\end{equation*}

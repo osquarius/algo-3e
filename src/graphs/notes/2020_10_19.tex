@@ -1,0 +1,39 @@
+\subsection*{Skojarzenia w~grafach}
+\subsubsection*{Definicja skojarzenia (matching)}
+\begin{gather*}
+    M \subseteq E\\
+    e, f \in M \implies e \cap f = \emptyset
+\end{gather*}
+Każdy wierzchołek dotyka co najwyżej jednej krawędzi skojarzenia.
+\subsubsection*{Rodzaje skojarzeń}
+\begin{itemize}
+    \item skojarzenie maksymalne (maximal)
+        \begin{gather*}
+            \forall e \not\in M \exists f \in M\colon e \cap f \neq \emptyset
+        \end{gather*}
+        Wyznaczanie:
+        \begin{description}
+            \item bierzemy naiwnie krawędzie póki się da
+        \end{description}
+    \item największe, najliczniejsze, o~największej liczności (maximum cardinality)
+    \item doskonałe (perfect) --- dotyka każdego wierzchołka
+        \begin{itemize}
+            \item graf musi mieć parzystą liczbę wierzchołków
+            \item skojarzenie doskonałe jest zawsze największe (ponieważ ma liczność \(\frac{\cardinality{V}}{2}\))
+        \end{itemize}
+    \item prawie doskonałe (nearly perfect) --- dotyka każdego wierzchołka poza jednym
+\end{itemize}
+\subsubsection*{Ścieżka naprzemienna, alternująca (alternating path)}
+\begin{equation*}
+    G = \pars{V, E}\\
+\end{equation*}
+Jeśli mamy jakieś skojarzenie \(M\) w~tym grafie, to ścieżką alternującą nazywamy ścieżkę \(P\) taką, że przechodzi na zmianę krawędzią należącą do \(M\) i~nienależącą do \(M\) (nie ustalamy na razie jaką krawędzią ma się zaczynać i~kończyć). Każdego wierzchołka wewnątrz ścieżki dotyka pewna krawędź ze skojarzenia \(M\). Jeśli dodamy dodatkowy wymóg, że jeśli ścieżka kończy się wierzchołkiem skojarzonym, to musi kończyć się krawędzią ze skojarzenia, to różnica symetryczna skojarzenia i~ścieżki alternującej również jest skojarzeniem:
+\begin{equation*}
+    M \oplus P = M'
+\end{equation*}
+Jak może się mieć \(\cardinality{M}\) do \(\cardinality{M'}\)?
+\begin{proofcases}
+    \item \(2 \divides \cardinality{P} \implies \cardinality{M} = \cardinality{M'}\)
+    \item \(2 \ndivides \cardinality{P} \implies \cardinality{M'}\) zależy od tego, w~jakich wierzchołkach zaczyna się i~kończy \(P\)
+\end{proofcases}
+\subsubsection*{Ścieżka powiększająca (augmenting path)}
